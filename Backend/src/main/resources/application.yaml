@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: Dungeon Master
+  output:
+    ansi:
+      enabled: ALWAYS
+  datasource:
+    url: jdbc:mysql://localhost:3306/dungeon_master_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: 'dungeon_master_user'
+    password: '97{YatZ3x!.f'
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  devtools:
+    restart:
+      enabled: true
+    livereload:
+      enabled: true
+server:
+  port: 9091
+  rest:
+    base-path: /api/v1
+
+cors:
+  allowed-origins: "http://localhost:5173,http://localhost,http://10.130.163.38,http://10.130.163.39,http://srv-dpi-proj-dungeonmaster-test.univ-rouen.fr,http://srv-dpi-proj-dungeonmaster-prod.univ-rouen.fr"
+
+jwt:
+  secret: thisIsASecretKeyThatMustBeDefinedAsEnvVariableOnProduction # Utilise une variable d'environnement pour la clé secrète
+  issuer: dungeon-master
+  header: Authorization
+  prefix: Bearer
+  token:
+    refresh:
+      expiration: 1209600000 # 14 jours 
+    access:
+      expiration: 3600000 # 1 heure
+react:
+  base-path: http://localhost:5173

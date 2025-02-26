@@ -1,0 +1,21 @@
+services:
+
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: dungeon_master_db
+      MYSQL_ROOT_PASSWORD: £&Wnc5LEP83@=V0w
+      MYSQL_USER: dungeon_master_user 
+      MYSQL_PASSWORD: 97{YatZ3x!.f
+    ports:
+      - "3306:3306"
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: £&Wnc5LEP83@=V0w
+    ports:
+      - "8080:80"
+      

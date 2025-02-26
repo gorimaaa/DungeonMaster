@@ -1,0 +1,65 @@
+services:
+  # MySQL Database
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    depends_on:
+      - database
+    environment:
+      PMA_HOST: mysql_db
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: £&Wnc5LEP83@=V0w
+    ports:
+      - "8080:80"
+    networks:
+      - app-network
+  database:
+    image: mysql:8.0
+    container_name: mysql_db
+    environment:
+      MYSQL_DATABASE: dungeon_master_db
+      MYSQL_ROOT_PASSWORD: £&Wnc5LEP83@=V0w
+      MYSQL_USER: dungeon_master_user
+      MYSQL_PASSWORD: 97{YatZ3x!.f
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - app-network
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 10s
+      retries: 5
+      start_period: 10s
+      timeout: 5s
+
+  # Spring Boot Application
+  app:
+    image: dungeonmasterufrst/app:backend
+    restart: always
+    container_name: dungeon_master_api
+    depends_on:
+      database:
+        condition: service_healthy
+    ports:
+      - "9091:9091"
+    networks:
+      - app-network
+  
+  # React Application
+  frontend:
+    image: dungeonmasterufrst/app:frontend
+    restart: always
+    container_name: dungeon_master_frontend
+    ports:
+      - "80:80"
+    networks:
+      - app-network
+
+volumes:
+  mysql_data:
+
+networks:
+  app-network:
+    driver: bridge
